@@ -1,4 +1,5 @@
 import csv
+import time
 from urllib.parse import urlparse
 from googlesearch import search
 
@@ -40,20 +41,26 @@ def main():
         result_dict = []
         print(f"search the {i} supplier {query}")
         i += 1
-        results = google_search(query)
-        for result in results:
-            # if not in block_list, save
-            hostname = get_host(result.url)
-            print(f"hostname is: {hostname}")
-            if validate(hostname):
-                result_dict.append(result.url)
-                result_dict.append(query)
-                result_dict.append(result.title)
-                result_dict.append(result.description)
+        try: 
+            results = google_search(query)
+            print("after google search")
+            for result in results:
+                # if not in block_list, save
+                hostname = get_host(result.url)
+                print(f"hostname is: {hostname}")
+                if validate(hostname):
+                    result_dict.append(result.url)
+                    result_dict.append(query)
+                    result_dict.append(result.title)
+                    result_dict.append(result.description)
 
-                append_csv(output_filename, result_dict)
-                break
-        # persist info
+                    append_csv(output_filename, result_dict)
+                    break
+        except Exception as e:
+            print(f"exception when query {query}: {e}")
+            time.sleep(30)
+        else:
+            time.sleep(5)
 
 if __name__ == "__main__":
     main()
