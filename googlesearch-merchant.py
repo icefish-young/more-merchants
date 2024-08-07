@@ -25,11 +25,9 @@ def get_host(url):
     return parse_url.hostname
 
 def main():
-    # categories = ["玩具", 
-    categories = ["服饰鞋包", "家电", "家居", "美妆", "运动", "手工DIY", "china", "made in china"]
-    sites = ["myshopify.com", "myshoplaza.com", "myshopline.com", "onshopbase.com", "wshopon.com", "hotishop.com"]
-    # sites = ["myshoplaza.com", "myshopline.com", "onshopbase.com", "wshopon.com", "hotishop.com"]
-    
+    # categories = ["玩具", "服饰鞋包", "家电", "家居", "美妆", 
+    categories = ["运动", "手工DIY", "china", "made in china"]
+    sites = ["myshopify.com", "myshoplaza.com", "myshopline.com", "wshopon.com", "hotishop.com","onshopbase.com"]
 
     unique_urls = set()
     results = set()
