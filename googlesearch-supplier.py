@@ -9,7 +9,7 @@ def read_file(filename):
     return lines
 
 def append_csv(filename, list):
-    with open(output_filename, 'a', newline='') as file:
+    with open(filename, 'a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(list)
 
@@ -22,22 +22,30 @@ def get_host(url):
     parse_url = urlparse(url)
     return parse_url.hostname
 
+def validate(hostname):
+    block_list = ["made-in-china.com","topchinasupplier.com","findsupply.com","importgenius.cn","exporthub.com","globalsources.com","alibaba.com"]
+    for block_site in block_list:
+        if block_site in hostname:
+            return False
+    return True
+
 def main():
     input_filename = "./input/suppliers.txt"
     output_filename = "./output/suppliers.csv"
-    block_list = ["www.made-in-china.com","www.topchinasupplier.com","www.findsupply.com","www.importgenius.cn","www.exporthub.com","www.globalsources.com"]
+    # block_list = ["www.made-in-china.com","www.topchinasupplier.com","www.findsupply.com","www.importgenius.cn","www.exporthub.com","www.globalsources.com"]
     query_list = read_file(input_filename)
 
     i = 1
     for query in query_list: 
         result_dict = []
         print(f"search the {i} supplier {query}")
+        i += 1
         results = google_search(query)
         for result in results:
             # if not in block_list, save
             hostname = get_host(result.url)
             print(f"hostname is: {hostname}")
-            if hostname not in block_list:
+            if validate(hostname):
                 result_dict.append(result.url)
                 result_dict.append(query)
                 result_dict.append(result.title)
