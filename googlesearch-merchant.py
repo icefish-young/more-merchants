@@ -16,14 +16,20 @@ def save_results_to_file(filename, results):
         file.write(str(results))
         # json.dump(results, f)
 
+def save_results_to_json(filename, results):
+    with open(filename, 'w') as file:
+        json.dump(results, file)
+
 def get_host(url):
     parse_url = urlparse(url)
     return parse_url.hostname
 
 def main():
-    categories = ["玩具", "服饰鞋包", "家电", "家居", "美妆", "运动", "手工DIY", "china", "made in china"]
-    # categories = ["家电", "家居", "美妆", "运动", "手工DIY", "china", "made in china"]
+    # categories = ["玩具", 
+    categories = ["服饰鞋包", "家电", "家居", "美妆", "运动", "手工DIY", "china", "made in china"]
     sites = ["myshopify.com", "myshoplaza.com", "myshopline.com", "onshopbase.com", "wshopon.com", "hotishop.com"]
+    # sites = ["myshoplaza.com", "myshopline.com", "onshopbase.com", "wshopon.com", "hotishop.com"]
+    
 
     unique_urls = set()
     results = set()
@@ -31,22 +37,28 @@ def main():
 
     for c in categories:
         for s in sites:
+            results_list = []
             query = make_query(c, s)
             print(f"current query is: {query}")
             search_results = google_search(query)
             for result in search_results:
+                result_dict = {}
                 print("the "+ str(i) + " urls")
                 i += 1
                 hostname = get_host(result.url)
                 if hostname not in unique_urls:
                     unique_urls.add(hostname)
-                    result.query = query
-                    results.add(result)
+                    result_dict['url'] = result.url
+                    result_dict['title'] = result.title
+                    result_dict['description'] = result.description
+                    result_dict['query'] = query
+                    result_dict['hostname'] = hostname
+                    results_list.append(result_dict)
                 else:
                     print(f"{hostname} is in the set")
 
-            results_list = list(results)
-            save_results_to_file("./output/merchants-"+c+"-"+s+".txt", results_list)
+            # results_list = list(results)
+            save_results_to_json("./output/merchants-"+c+"-"+s+".json", results_list)
             results.clear()
             time.sleep(20)
 
