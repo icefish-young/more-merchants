@@ -26,10 +26,10 @@ def get_host(url):
 
 def main():
     # categories = ["玩具", "服饰鞋包", "家电", "家居", "美妆", "运动", "手工DIY", 
-    categories = ["china", "made in china"]
-    sites = ["wshopon.com", "hotishop.com","onshopbase.com"]
-        # "myshopline.com", "myshopify.com", "myshoplaza.com", 
-
+    categories = ["made in china"]
+        # "china", 
+    sites = ["myshopline.com", "myshopify.com", "myshoplaza.com", "wshopon.com", "hotishop.com","onshopbase.com"]
+    
     unique_urls = set()
     results = set()
     i = 1
